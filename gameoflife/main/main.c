@@ -1,3 +1,13 @@
+/*
+ * Example of the book "Embedded Systems mit RISC-V", dpunkt-Verlag
+ * Author: Patrick Ritschel
+ *
+ * The code of this project is in the Public Domain (or CC0 licensed, at your option).
+ * Unless required by applicable law or agreed to in writing, this
+ * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied.
+ */
+
 #include <time.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -47,7 +57,6 @@ static void generateGame() {
 	assert (gameField != NULL);
 	for (int i = 0; i < GAME_DIMENSION; i += 1) {
 		for (int j = 0; j < GAME_DIMENSION; j += 1) {
-			//setGameFieldValue(i, j, rand() % 2);
 			setGameFieldValue(i, j, esp_random() % 2);
 		}
 	}
