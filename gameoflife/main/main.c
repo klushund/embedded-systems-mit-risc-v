@@ -180,20 +180,6 @@ void app_main(void) {
 
 	timer_start(TIMER_GROUP_0, TIMER_0);
 
-	time_t now;
-	char strftime_buf[64];
-	struct tm timeinfo;
-
-	time(&now);
-	// Set timezone to China Standard Time
-	setenv("TZ", "CET-1", 1);
-	tzset();
-	printf("BLA\n");
-	localtime_r(&now, &timeinfo);
-	strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
-	printf("The current date/time in V is: %s\n", strftime_buf);
-
-	printf("blu\n");
 	while (1) {
         // update LEDs
 		if (refreshDisplay) {
