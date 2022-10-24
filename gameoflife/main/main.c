@@ -2,6 +2,8 @@
  * Example of the book "Embedded Systems mit RISC-V", dpunkt-Verlag
  * Author: Patrick Ritschel
  *
+ * see https://ritschel.at/kapitel-8-5-1-timer-des-esp32-c3-applikation-gameoflife/
+ *
  * The code of this project is in the Public Domain (or CC0 licensed, at your option).
  * Unless required by applicable law or agreed to in writing, this
  * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
@@ -12,9 +14,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/timer.h"
+#include "esp_log.h"
 #include "led_strip.h"
 
 #define GAME_DIMENSION		5
+
+static const char* TAG = "gameoflife";
 
 static led_strip_t *gpLEDStrip;
 static int8_t* gameField = NULL;
@@ -53,6 +58,7 @@ static int8_t getGameFieldValue(int x, int y) {
 }
 
 static void generateGame() {
+	#if (CONFIG_INITIALIZE_GAMEFIELD_RANDOM == 1)
 	gameField = malloc(sizeof(int8_t) * GAME_DIMENSION * GAME_DIMENSION);
 	assert (gameField != NULL);
 	for (int i = 0; i < GAME_DIMENSION; i += 1) {
@@ -60,21 +66,26 @@ static void generateGame() {
 			setGameFieldValue(i, j, esp_random() % 2);
 		}
 	}
-//	for (int i = 0; i < GAME_DIMENSION; i += 1) {
-//		for (int j = 0; j < GAME_DIMENSION; j += 1) {
-//			setGameFieldValue(i, j, 0);
-//		}
-//	}
-//	// Oszilating object
-//	setGameFieldValue(1, 1, 1);
-//	setGameFieldValue(2, 1, 1);
-//	setGameFieldValue(3, 1, 1);
-//	// Glider
-//	setGameFieldValue(1, 1, 1);
-//	setGameFieldValue(2, 1, 1);
-//	setGameFieldValue(3, 1, 1);
-//	setGameFieldValue(3, 2, 1);
-//	setGameFieldValue(2, 3, 1);
+	#else // (CONFIG_INITIALIZE_GAMEFIELD_RANDOM == 1)
+	for (int i = 0; i < GAME_DIMENSION; i += 1) {
+		for (int j = 0; j < GAME_DIMENSION; j += 1) {
+			setGameFieldValue(i, j, 0);
+		}
+	}
+	#if (CONFIG_INITIALIZE_GAMEFIELD_OSCILLATING == 1)
+	// Oscillating object
+	setGameFieldValue(1, 1, 1);
+	setGameFieldValue(2, 1, 1);
+	setGameFieldValue(3, 1, 1);
+	#elif (CONFIG_INITIALIZE_GAMEFIELD_GLIDER == 1)
+	// Glider
+	setGameFieldValue(1, 1, 1);
+	setGameFieldValue(2, 1, 1);
+	setGameFieldValue(3, 1, 1);
+	setGameFieldValue(3, 2, 1);
+	setGameFieldValue(2, 3, 1);
+	#endif
+	#endif // (CONFIG_INITIALIZE_GAMEFIELD_RANDOM == 1)
 }
 
 uint32_t countNeighbors(int x, int y) {
@@ -90,16 +101,6 @@ uint32_t countNeighbors(int x, int y) {
 	}
 	return count;
 }
-
-//void printBoard(int8_t* board) {
-//	for (int i = 0; i < GAME_DIMENSION; i += 1) {
-//		for (int j = 0; j < GAME_DIMENSION; j += 1) {
-//			printf("%02d ", board[i * GAME_DIMENSION + j]);
-//		}
-//		printf("\n");
-//	}
-//	printf("\n");
-//}
 
 static void calculateGeneration() {
 	int8_t* gameFieldCopy = calloc(GAME_DIMENSION * GAME_DIMENSION, sizeof(int8_t));
@@ -157,7 +158,7 @@ static bool IRAM_ATTR displayGameState(void* args) {
 }
 
 void app_main(void) {
-	printf("Init LED\n");
+	ESP_LOGI(TAG, "Init LED");
     // Initialize WS2812 LED Strip with 25 pixels
     gpLEDStrip = led_strip_init(0, 8, 25);
     gpLEDStrip->clear(gpLEDStrip, 50);
@@ -180,6 +181,7 @@ void app_main(void) {
 
 	timer_start(TIMER_GROUP_0, TIMER_0);
 
+	ESP_LOGI(TAG, "Game starting");
 	while (1) {
         // update LEDs
 		if (refreshDisplay) {
