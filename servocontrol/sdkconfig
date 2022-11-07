@@ -300,12 +300,12 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# gameoflife Configuration
+# servocontrol Configuration
 #
-# CONFIG_INITIALIZE_GAMEFIELD_RANDOM is not set
-CONFIG_INITIALIZE_GAMEFIELD_OSCILLATING=y
-# CONFIG_INITIALIZE_GAMEFIELD_GLIDER is not set
-# end of gameoflife Configuration
+# CONFIG_USE_FIR2_FILTER is not set
+# CONFIG_USE_FIR10_FILTER is not set
+CONFIG_USE_IIR_FILTER=y
+# end of servocontrol Configuration
 
 #
 # Compiler options

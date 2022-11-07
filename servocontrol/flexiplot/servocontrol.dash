@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dash>
+    <General isLocked="0"/>
+    <Widget type="1">
+        <WindowGeometry x="0" y="0" width="646" height="568"/>
+        <id>P0</id>
+        <title>ADC Voltage</title>
+        <xname>Zeit</xname>
+        <yname>mV</yname>
+        <type>0</type>
+        <buffer>100</buffer>
+        <refresh_rate>50</refresh_rate>
+        <auto_scale_y>1</auto_scale_y>
+        <min_scale_y>-200</min_scale_y>
+        <max_scale_y>200</max_scale_y>
+        <auto_scale_x>1</auto_scale_x>
+        <min_scale_x>-199</min_scale_x>
+        <max_scale_x>206</max_scale_x>
+        <date_format>hh:mm:ss</date_format>
+        <auto_filling>0</auto_filling>
+        <background-color>#ffffff</background-color>
+        <auto_fill_opacity>20</auto_fill_opacity>
+        <auto_write_file></auto_write_file>
+        <auto_write_seperator>;</auto_write_seperator>
+    </Widget>
+    <Widget type="1">
+        <WindowGeometry x="646" y="0" width="646" height="568"/>
+        <id>P1</id>
+        <title>Widerstand</title>
+        <xname>Zeit</xname>
+        <yname>Ohm</yname>
+        <type>0</type>
+        <buffer>100</buffer>
+        <refresh_rate>50</refresh_rate>
+        <auto_scale_y>1</auto_scale_y>
+        <min_scale_y>-200</min_scale_y>
+        <max_scale_y>200</max_scale_y>
+        <auto_scale_x>1</auto_scale_x>
+        <min_scale_x>-200</min_scale_x>
+        <max_scale_x>200</max_scale_x>
+        <date_format>hh:mm:ss</date_format>
+        <auto_filling>1</auto_filling>
+        <background-color>#ffffff</background-color>
+        <auto_fill_opacity>20</auto_fill_opacity>
+        <auto_write_file></auto_write_file>
+        <auto_write_seperator>;</auto_write_seperator>
+    </Widget>
+    <Widget type="1">
+        <WindowGeometry x="1252" y="397" width="646" height="568"/>
+        <id>P2</id>
+        <title>Helligkeit</title>
+        <xname>Zeit</xname>
+        <yname></yname>
+        <type>0</type>
+        <buffer>100</buffer>
+        <refresh_rate>50</refresh_rate>
+        <auto_scale_y>1</auto_scale_y>
+        <min_scale_y>-200</min_scale_y>
+        <max_scale_y>200</max_scale_y>
+        <auto_scale_x>1</auto_scale_x>
+        <min_scale_x>-200</min_scale_x>
+        <max_scale_x>200</max_scale_x>
+        <date_format>hh:mm:ss</date_format>
+        <auto_filling>1</auto_filling>
+        <background-color>#ffffff</background-color>
+        <auto_fill_opacity>20</auto_fill_opacity>
+        <auto_write_file></auto_write_file>
+        <auto_write_seperator>;</auto_write_seperator>
+    </Widget>
+</Dash>
