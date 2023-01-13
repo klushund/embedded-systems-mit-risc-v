@@ -1,0 +1,18 @@
+menu "Histogram Cachetest Configuration"
+	config TESTSIZE_KiB
+    	int "TESTSIZE_KiB"
+    	default 1
+    	help
+			Size of the test, in KiB
+
+	choice MEASUREMENT_TYPE
+        prompt "Type of Measurement"
+        default MEASURE_CYCLES
+        help
+            Select the type of measurement
+        config MEASURE_CYCLES
+            bool "Measure executed clock cycles"
+        config MEASURE_INSTRUCTIONS
+            bool "Measure executed instructions"
+    endchoice
+endmenu
