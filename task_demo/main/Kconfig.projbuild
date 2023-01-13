@@ -1,0 +1,25 @@
+menu "task_demo Configuration"
+choice BUTTON_SYNCH
+	prompt "Button Synchronization"
+	default BUTTON_SYNCH_SEMAPHORE
+	help
+		Select the mechanism for button synchronization
+		
+	config BUTTON_SYNCH_SEMAPHORE
+		bool "Semaphore"
+		help
+			Use a semaphore for button synchronization
+			
+	config BUTTON_SYNCH_QUEUE
+		bool "Queue"
+		help
+			Use a queue for button synchronization
+endchoice
+
+config PRINT_LEDTASK_STATUS
+    bool "print LED-Task-Status"
+    default false
+    help
+	Use vTaskGetInfo() in LED-Task function to print task status
+
+endmenu
