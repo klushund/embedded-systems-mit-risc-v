@@ -1,0 +1,14 @@
+menu "interrupt_demo Configuration"
+	choice CALLBACK_TYPE
+        prompt "Type of Callback"
+        default CALLBACK_DYNAMIC
+        help
+            Select the type of callback: none, static, or dynamic
+        config CALLBACK_NONE
+            bool "No callback (use global variable)"
+        config CALLBACK_STATIC
+            bool "Static callback"
+        config CALLBACK_DYNAMIC
+        	bool "Dynamic callback"
+    endchoice
+endmenu
