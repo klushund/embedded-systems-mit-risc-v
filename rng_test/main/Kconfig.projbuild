@@ -1,0 +1,26 @@
+menu "rng_test Configuration"
+	config M
+	    int "m, number of chi square bins"
+	    default 10
+	    help
+		Enter the number of chi square bins, m. Typically 10.
+	
+	config OBSERVATIONS
+	    int "Number of observations"
+	    default 100
+	    help
+		The number of observations is the number of drawn random numbers.
+	
+	choice MODULO_CALCULATION
+	    prompt "Type of modulo calculation"
+	    default CALCULATE_MOD_M
+	    help
+	        Select the type of modulo calculation
+	    config CALCULATE_MOD_M
+	        bool "nextRand() % m"
+	    config CALCULATE_BYTE_MOD_M
+	        bool "(nextRand() & 0xFF) % m"
+	    config CALCULATE_NIBBLE_MOD_M
+	        bool "(nextRand() & 0x0F) % m"
+    endchoice
+endmenu
