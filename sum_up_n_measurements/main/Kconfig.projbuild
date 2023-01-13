@@ -1,0 +1,47 @@
+menu "sum_up_n Measurements Configuration"
+	config USE_CSR_MACROS
+    	bool "Use CSR Macros"
+    	default false
+    	help
+			Use the CSR Macros from ESP-IDF instead of inline assembly
+
+	config CALCULATE_IN_FUNCTION
+    	bool "Calculate in function"
+    	default false
+    	help
+			Calculate the sum in a function (true) or inline (false)
+
+	config USE_ASSEMBLER_FUNCTION
+    	bool "Use Assembler function"
+    	default false
+    	depends on CALCULATE_IN_FUNCTION
+    	help
+			Use the C-Function sum_up_n() or the assembler function sum_up_func()
+
+	config USE_CONSTANT_TEST_VALUE
+		int "Use constant test value"
+		default 100
+		help
+			Use the same input value for all tests, e.g. 100.
+			If set to 0, the values 1, 1, 10, 100, 1000, 10000, 100000, 1000000 will be used in separate runs
+			
+	config USE_LOOP
+		bool "Calculate in a loop"
+		default false
+		help
+			Calculate more than once, in a loop.
+			The input values are defined in USE_CONSTANT_TEST_VALUE.
+			
+	choice USE_GAUSS_FORMULA
+        prompt "Type of formula"
+        default MEASURE_CYCLES
+        help
+            Select the type of formula for calculation 
+        config GAUSS_FORMULA_1
+            bool "(upperNumber * (upperNumber + 1)) / 2"
+        config GAUSS_FORMULA_2
+            bool "((upperNumber * upperNumber) + upperNumber) / 2"
+        config GAUSS_FORMULA_LOOP
+        	bool "loop calculation"
+    endchoice
+endmenu
