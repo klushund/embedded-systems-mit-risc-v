@@ -1,0 +1,13 @@
+menu "switch_led Configuration"
+	choice MULTIPLEX_METHOD
+	    prompt "Type of access for pin multiplexing"
+	    default MULTIPLEX_BY_BITMASKING
+	    help
+	        Select the type of access for pin multiplexing:
+	        Use bit masking or use a bitfield
+	    config MULTIPLEX_BY_BITMASKING
+	        bool "Set Multiplexing by Bitmasking"
+	    config MULTIPLEX_WITH_BITFIELD
+	        bool "Set Multiplexing with a Bitfield"
+    endchoice
+endmenu
