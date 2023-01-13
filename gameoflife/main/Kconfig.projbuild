@@ -1,0 +1,23 @@
+menu "gameoflife Configuration"
+choice INITIALIZE_GAMEFIELD
+	prompt "gamefield initialization"
+	default INITIALIZE_GAMEFIELD_RANDOM
+	help
+		Select the method to initialize the game field upon reset
+		
+	config INITIALIZE_GAMEFIELD_RANDOM
+		bool "Random gamefield initialization"
+		help
+			Initializes the gamefield with random cells
+			
+	config INITIALIZE_GAMEFIELD_OSCILLATING
+		bool "Oscillating gamefield initialization"
+		help
+			Initializes the gamefield with an oscillating object
+
+	config INITIALIZE_GAMEFIELD_GLIDER
+		bool "Glider gamefield initialization"
+		help
+			Initializes the gamefield with a glider object
+endchoice			
+endmenu
