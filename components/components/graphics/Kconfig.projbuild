@@ -1,0 +1,62 @@
+menu "Graphics Configuration"
+	
+	config GRAPHICS_I2CADDR
+		int "i2c address"
+		default 60
+		help
+			I2C Address of the SSD1306 display controller
+	
+	config GRAPHICS_BITSPERPIXEL
+		int "bits per pixel"
+		default 1
+		help
+			Currently only monochrome displays are supported (i.e. value 1)
+			
+    config GRAPHICS_PIXELWIDTH
+        int "Pixel Width"
+        default 128
+        help
+            Width of monochrome display in pixels.
+
+    config GRAPHICS_PIXELHEIGHT
+        int "Pixel Width"
+        default 64
+        help
+            Width of monochrome display in pixels.
+	
+	menu "Fonts"
+		config GRAPHICS_USE_FONT_SKETCHFLOW_PRINT
+			bool "Use Font 'SketchFlow_Print'"
+			default y
+			help
+				Mark to make the font available.
+
+		config GRAPHICS_USE_FONT_STENCIL
+			bool "Use Font 'Stencil'"
+			default y
+			help
+				Mark to make the font available.
+						
+		config GRAPHICS_USE_FONT_TREBUCHET_MS
+			bool "Use Font 'Trebuchet MS'"
+			default y
+			help
+				Mark to make the font available.
+				
+		choice
+            prompt "Default Font"
+            default GRAPHICS_DEFAULT_FONT_Trebuchet_MS
+            help
+                Default font to be used.
+
+            config GRAPHICS_DEFAULT_FONT_SKETCHFLOW_PRINT
+                bool "SketchFlow Print"
+            config GRAPHICS_DEFAULT_FONT_STENCIL
+                bool "Stencil"
+            config GRAPHICS_DEFAULT_FONT_TREBUCHET_MS
+                bool "Trebuchet MS"
+        endchoice
+			
+	endmenu
+	
+endmenu

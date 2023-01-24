@@ -1,0 +1,9 @@
+menu "Button Configuration"
+	
+	config BUTTON_GPIO
+		int "GPIO used for button"
+		default 9
+		help
+			On the ESP32-C3-DevKitM-1 the boot button is on GPIO 9. 
+			
+endmenu
