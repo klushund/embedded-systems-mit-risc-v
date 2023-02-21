@@ -1,0 +1,32 @@
+menu "motiondetect Configuration"
+config LEDSTRIP_GPIO
+    int "LED strip GPIO"
+    default 8
+    help
+	The GPIO the LED strip signal line is connected to.
+
+config PIRSENSOR_GPIO
+    int "PIR Sensor GPIO"
+    default 3
+    help
+	The GPIO the PIR sensor signal line is connected to.
+	
+config PIR_LED_ACTIVATION_s
+	int "PIR LED Activation"
+	default 5
+	help
+	LED activation due to PIR activity, in seconds
+
+config LED_DARK_VALUE
+	int "Value for dark LED"
+	default 1
+	help
+	The brightness the dark LED is turned on with
+	
+config LED_LITUP_VALUE
+	int "Value for lit-up LED"
+	default 20
+	help
+	The brightness the lit-up LED is turned on with
+
+endmenu

@@ -1,0 +1,7 @@
+/build/
+sdkconfig.old
+/.settings/
+/managed_components/
+*.lock
+/.cproject
+/.project
