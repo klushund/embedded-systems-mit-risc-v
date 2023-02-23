@@ -1,0 +1,9 @@
+menu "Ticker Example Configuration"
+
+config LED_STRIP_GPIO
+    int "LED Strip GPIO"
+    default 8
+    help
+	GPIO the LED strip is connected to.
+
+endmenu

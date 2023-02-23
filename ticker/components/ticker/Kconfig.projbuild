@@ -1,0 +1,33 @@
+menu "Ticker Configuration"
+
+config DISPLAY_WIDTH
+	int "Display Width"
+	default 5
+	help
+	Display width in pixels (i.e. LEDs).
+	
+config DISPLAY_HEIGHT
+	int "Display Height"
+	default 5
+	help
+	Display height in pixels (i.e. LEDs).
+	
+config DISPLAY_INTERCHARACTERSPACE
+	int "Display inter character space"
+	default 1
+	help
+	Space between characters in pixels
+	
+config DISPLAY_BRIGHTNESS
+	int "Display Brightness"
+	default 20
+	help
+	Brightness of the display (i.e. LEDs).
+	
+config SCROLL_DELAY
+	int "Scroll Delay"
+	default 150
+	help
+	Delay for display scrolling, in milliseconds.
+	
+endmenu
