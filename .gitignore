@@ -40,3 +40,10 @@ task_demo/.project
 task_demo/main/.cproject
 ticker/components/ticker/.cproject
 ticker/main/.cproject
+poxi/.settings/org.eclipse.core.resources.prefs
+poxi/build/
+poxi/managed_components
+
+*.old
+poxi/sdkconfig
+poxi/esp-idf-vscode-generated.gdb

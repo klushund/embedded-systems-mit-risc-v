@@ -1,0 +1,14 @@
+{
+    "idf.adapterTargetName": "esp32c3",
+    "idf.openOcdConfigs": [
+        "board/esp32c3-builtin.cfg"
+    ],
+    "files.associations": {
+        "string.h": "c",
+        "esp_log.h": "c",
+        "sdkconfig.h": "c",
+        "staticwifi.h": "c"
+    },
+    "idf.flashType": "UART",
+    "idf.portWin": "COM24"
+}
