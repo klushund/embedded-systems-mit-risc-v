@@ -9,6 +9,7 @@
  * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied.
  */
+
 #include "freertos/message_buffer.h"
 
 enum ButtonState {
@@ -17,7 +18,7 @@ enum ButtonState {
 };
 
 struct ButtonEvent {
-	uint64_t systemtime;
+	int64_t systemtime;
 	enum ButtonState buttonState;
 };
 

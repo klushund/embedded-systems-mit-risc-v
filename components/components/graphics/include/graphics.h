@@ -1,15 +1,4 @@
 /*
- * graphics.h
- *
- *  Created on: 22.12.2021
- *      Author: rpa
- */
-
-#ifndef MAIN_GRAPHICS_H_
-#define MAIN_GRAPHICS_H_
-
-#include <stdint.h>
-/*
  * Part of the book "Embedded Systems mit RISC-V", dpunkt.verlag
  * Author: Patrick Ritschel
  *
@@ -20,11 +9,16 @@
  * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied.
  */
+
+#ifndef MAIN_GRAPHICS_H_
+#define MAIN_GRAPHICS_H_
+
+#include <stdint.h>
 #include "driver/i2c.h"
 
 void graphics_startUpdate(void);
 void graphics_finishUpdate(void);
-void graphics_init(i2c_port_t i2c, uint8_t displayWidth, uint8_t displayHeight, uint8_t xOffs, bool synchronousUpdate);
+esp_err_t graphics_init(i2c_port_t i2c, uint8_t displayWidth, uint8_t displayHeight, uint8_t xOffs, bool flipVertical, bool synchronousUpdate);
 uint8_t graphics_getDisplayWidth();
 uint8_t graphics_getDisplayHeight();
 void graphics_clearScreen(void);

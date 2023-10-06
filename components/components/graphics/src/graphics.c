@@ -57,6 +57,7 @@ static SemaphoreHandle_t gMutex = NULL;
 TaskHandle_t gDisplayTaskHandle = NULL;
 
 // internal prototypes
+static esp_lcd_panel_handle_t initDisplay(esp_lcd_i2c_bus_handle_t displayInterface, uint32_t i2cAddr, bool flipVertical, esp_err_t* pRes);
 static void displayTaskMainFunc(void * pvParameters);
 static void createDisplayTask(void);
 static void adaptDirty(int x1, int y1, int x2, int y2);
@@ -76,7 +77,7 @@ void graphics_finishUpdate() {
 	xTaskNotifyGive(gDisplayTaskHandle);
 }
 
-esp_lcd_panel_handle_t initDisplay(esp_lcd_i2c_bus_handle_t displayInterface, uint32_t i2cAddr) {
+esp_lcd_panel_handle_t initDisplay(esp_lcd_i2c_bus_handle_t displayInterface, uint32_t i2cAddr, bool flipVertical, esp_err_t* pRes) {
 	esp_lcd_panel_io_handle_t io_handle = NULL;
 	esp_lcd_panel_io_i2c_config_t io_config = {
 			.dev_addr = i2cAddr,
@@ -87,7 +88,10 @@ esp_lcd_panel_handle_t initDisplay(esp_lcd_i2c_bus_handle_t displayInterface, ui
 			.flags.dc_low_on_data = 0
 	};
 	// Attach the LCD to the I2C bus
-	ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c(displayInterface, &io_config, &io_handle));
+	*pRes = esp_lcd_new_panel_io_i2c(displayInterface, &io_config, &io_handle);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
 
 	esp_lcd_panel_handle_t displayHandle = NULL;
     esp_lcd_panel_dev_config_t panel_config = {
@@ -95,24 +99,50 @@ esp_lcd_panel_handle_t initDisplay(esp_lcd_i2c_bus_handle_t displayInterface, ui
         .bits_per_pixel = 1
     };
     // Initialize the LCD configuration
-    ESP_ERROR_CHECK(esp_lcd_new_panel_ssd1306(io_handle, &panel_config, &displayHandle));
+    *pRes = esp_lcd_new_panel_ssd1306(io_handle, &panel_config, &displayHandle);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
 
     // Reset the display
-    ESP_ERROR_CHECK(esp_lcd_panel_reset(displayHandle));
+    *pRes = esp_lcd_panel_reset(displayHandle);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
 
     // Initialize LCD panel
-    ESP_ERROR_CHECK(esp_lcd_panel_init(displayHandle));
+    *pRes = esp_lcd_panel_init(displayHandle);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
 
     // set precharge and contrast to max -> brighter
-    ssd1306patch_sendCommand(displayHandle, SSD1306_COMMAND_SETPRECHARGE, 0xF2);
+    *pRes = ssd1306patch_sendCommand(displayHandle, SSD1306_COMMAND_SETPRECHARGE, 0xF2);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
 
-    ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(displayHandle, true));
+    *pRes = esp_lcd_panel_disp_on_off(displayHandle, true);
+	if (*pRes != ESP_OK) {
+		return NULL;
+	}
+
+	if (flipVertical) {
+    	*pRes = esp_lcd_panel_mirror(displayHandle, true, true);
+    	if (*pRes != ESP_OK) {
+    		return NULL;
+    	}
+	}
 
     return displayHandle;
 }
 
-void graphics_init(i2c_port_t i2c, uint8_t displayWidth, uint8_t displayHeight, uint8_t xOffs, bool synchronousUpdate) {
-	gDisplayHandle = initDisplay((esp_lcd_i2c_bus_handle_t)i2c, CONFIG_GRAPHICS_I2CADDR);
+esp_err_t graphics_init(i2c_port_t i2c, uint8_t displayWidth, uint8_t displayHeight, uint8_t xOffs, bool flipVertical, bool synchronousUpdate) {
+	esp_err_t res = ESP_OK;
+	gDisplayHandle = initDisplay((esp_lcd_i2c_bus_handle_t)i2c, CONFIG_GRAPHICS_I2CADDR, flipVertical, &res);
+	if (res != ESP_OK) {
+		return res;
+	}
 	gDisplayWidth = displayWidth;
 	gDisplayHeight = displayHeight;
 	gSynchronousUpdate = synchronousUpdate;
@@ -132,6 +162,7 @@ void graphics_init(i2c_port_t i2c, uint8_t displayWidth, uint8_t displayHeight, 
 	gTransferBuffer = heap_caps_malloc(gBufferLength, MALLOC_CAP_DMA);
 	assert(gTransferBuffer != NULL);
 	graphics_clearScreen();
+	return ESP_OK;
 }
 
 uint8_t graphics_getDisplayWidth() {

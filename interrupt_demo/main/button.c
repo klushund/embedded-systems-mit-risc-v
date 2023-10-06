@@ -16,7 +16,7 @@
 #include "driver/gpio.h"
 #include "button.h"
 
-#define BTN_GPIO						GPIO_NUM_6
+#define BTN_GPIO						CONFIG_BUTTON_GPIO
 
 static void btn_isr_handler(void* arg);
 

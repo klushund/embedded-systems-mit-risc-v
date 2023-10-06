@@ -18,9 +18,9 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define LED1_GPIO						GPIO_NUM_4
-#define LED2_GPIO						GPIO_NUM_5
-#define BTN_GPIO						GPIO_NUM_6
+#define LED1_GPIO						CONFIG_LED1_GPIO
+#define LED2_GPIO						CONFIG_LED2_GPIO
+#define BTN_GPIO						CONFIG_BUTTON_GPIO
 
 // ***** implementation *****
 void app_main() {

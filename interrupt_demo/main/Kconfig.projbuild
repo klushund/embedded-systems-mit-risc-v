@@ -1,4 +1,16 @@
 menu "interrupt_demo Configuration"
+	config LED1_GPIO
+		int "LED1 GPIO"
+		default 4
+		help
+			GPIO LED1 is connected to. In the book it is 4, the book development board uses 0
+			
+	config BUTTON_GPIO
+		int "Button GPIO"
+		default 6
+		help
+			GPIO the Button is connected to. In the book it is 6, the book development board uses 9
+
 	choice CALLBACK_TYPE
         prompt "Type of Callback"
         default CALLBACK_DYNAMIC

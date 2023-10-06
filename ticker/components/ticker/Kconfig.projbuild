@@ -29,5 +29,11 @@ config SCROLL_DELAY
 	default 150
 	help
 	Delay for display scrolling, in milliseconds.
+
+config ROTATE_STRIP
+	bool "Rotate Strip"
+	default y
+	help
+	Rotate the view by 90°
 	
 endmenu

@@ -9,6 +9,7 @@
  * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied.
  */
+
 #include <sys/cdefs.h>
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_vendor.h"
@@ -26,11 +27,11 @@ typedef struct {
 } ssd1306_panel_t;
 
 
-void ssd1306patch_sendCommand(esp_lcd_panel_t *panel, uint8_t command, uint8_t data) {
+esp_err_t ssd1306patch_sendCommand(esp_lcd_panel_t *panel, uint8_t command, uint8_t data) {
     // access the panel directly to set the display precharge (brighter)
     ssd1306_panel_t *ssd1306 = __containerof(panel, ssd1306_panel_t, base);
     esp_lcd_panel_io_handle_t io = ssd1306->io;
-    esp_lcd_panel_io_tx_param(io, command, (uint8_t[]) {
+    return esp_lcd_panel_io_tx_param(io, command, (uint8_t[]) {
         data
     }, 1);
 }

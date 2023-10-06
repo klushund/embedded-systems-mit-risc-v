@@ -81,7 +81,6 @@ void ticker_registerTickerCallback(TickerCallback tickerCallback) {
 	gTickerCallback = tickerCallback;
 }
 
-// set text to NULL to clear
 void ticker_setText(char* tickerText, bool restartTicker) {
 	strncpy(gTickerText, tickerText, TICKER_MAXTEXTLEN);
 	gRestartTicker = restartTicker;
@@ -155,25 +154,33 @@ void tickerTaskMainFunc(void * pvParameters) {
 		getNextCharacterLine(gPixels);
 
 		// copy the display buffer to the LEDs
-		for (int i = 0; i < CONFIG_DISPLAY_WIDTH * CONFIG_DISPLAY_HEIGHT; i += 1) {
-			switch (gPixels[i]) {
-				case Color_Red:
-					led_strip_set_pixel(gLedStrip, i, gDisplayBrightness, 0, 0);
-					break;
-				case Color_Green:
-					led_strip_set_pixel(gLedStrip, i, 0, gDisplayBrightness, 0);
-					break;
-				case Color_Blue:
-					led_strip_set_pixel(gLedStrip, i, 0, 0, gDisplayBrightness);
-					break;
-				case Color_Orange:
-					led_strip_set_pixel(gLedStrip, i, gDisplayBrightness, (gDisplayBrightness * 2) / 3, 0);
-					break;
-				case Color_White:
-					led_strip_set_pixel(gLedStrip, i, (gDisplayBrightness * 1) / 3, (gDisplayBrightness * 1) / 3, (gDisplayBrightness * 1) / 3);
-					break;
-				default:
-					led_strip_set_pixel(gLedStrip, i, 0, 0, 0);
+		for (int i = 0; i < CONFIG_DISPLAY_WIDTH; i += 1) {
+			for (int j = 0; j < CONFIG_DISPLAY_HEIGHT; j += 1) {
+				int srcIndex = i * CONFIG_DISPLAY_HEIGHT + j;
+				#ifdef CONFIG_ROTATE_STRIP
+				int dstIndex = j * CONFIG_DISPLAY_WIDTH + (4 - i);
+				#else
+				int dstIndex = srcIndex;
+				#endif
+				switch (gPixels[srcIndex]) {
+					case Color_Red:
+						led_strip_set_pixel(gLedStrip, dstIndex, gDisplayBrightness, 0, 0);
+						break;
+					case Color_Green:
+						led_strip_set_pixel(gLedStrip, dstIndex, 0, gDisplayBrightness, 0);
+						break;
+					case Color_Blue:
+						led_strip_set_pixel(gLedStrip, dstIndex, 0, 0, gDisplayBrightness);
+						break;
+					case Color_Orange:
+						led_strip_set_pixel(gLedStrip, dstIndex, gDisplayBrightness, (gDisplayBrightness * 2) / 3, 0);
+						break;
+					case Color_White:
+						led_strip_set_pixel(gLedStrip, dstIndex, (gDisplayBrightness * 1) / 3, (gDisplayBrightness * 1) / 3, (gDisplayBrightness * 1) / 3);
+						break;
+					default:
+						led_strip_set_pixel(gLedStrip, dstIndex, 0, 0, 0);
+				}
 			}
 		}
 		led_strip_refresh(gLedStrip);

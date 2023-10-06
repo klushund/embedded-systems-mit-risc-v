@@ -1,2 +1,19 @@
 menu "leds_and_button Configuration"
+	config LED1_GPIO
+		int "LED1 GPIO"
+		default 4
+		help
+			GPIO LED1 is connected to. In the book it is 4, the book development board uses 0
+			
+	config LED2_GPIO
+		int "LED2 GPIO"
+		default 5
+		help
+			GPIO LED2 is connected to. In the book it is 5, the book development board uses 1
+
+	config BUTTON_GPIO
+		int "Button GPIO"
+		default 6
+		help
+			GPIO the Button is connected to. In the book it is 6, the book development board uses 9
 endmenu

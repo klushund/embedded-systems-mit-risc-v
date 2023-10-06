@@ -58,16 +58,6 @@ void app_main(void) {
 	adc_cali_handle_t calHandle;
 	ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&calConfig, &calHandle));
 
-//    // Load ADC1 calibration data
-//    esp_adc_cal_characteristics_t adc1_calib;
-//    if (esp_adc_cal_check_efuse(ESP_ADC_CAL_VAL_EFUSE_TP) == ESP_OK) {
-//		esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_11,
-//		ADC_WIDTH_BIT_12, 0, &adc1_calib);
-//    } else {
-//    	ESP_LOGE(TAG, "Could not calibrate ADC1, restarting now!");
-//        esp_restart();
-//    }
-
     // Initialize WS2812 LED Strip with 25 pixels
     led_strip_config_t stripConfig = {
         .strip_gpio_num = 8,
@@ -113,8 +103,6 @@ void app_main(void) {
     	int rawValue, voltage_mV;
     	adc_oneshot_read(adcHandle, ADC_CHANNEL_2, &rawValue);
     	adc_cali_raw_to_voltage(calHandle, rawValue, &voltage_mV);
-//    	int rawValue = adc1_get_raw(ADC1_CHANNEL_2);
-//    	uint32_t voltage_mV = esp_adc_cal_raw_to_voltage(rawValue, &adc1_calib);
 
 		float firValue_2 = filter_filterValue(pFIRFilter_order2, voltage_mV);
 		float firValue_10 = filter_filterValue(pFIRFilter_order10, voltage_mV);

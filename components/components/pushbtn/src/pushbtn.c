@@ -16,6 +16,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "pushbtn.h"
 
 #define BUTTON_TASK_STACKSIZE		2048
@@ -49,6 +50,7 @@ void buttonTaskMainFunc(void * pvParameters) {
 		if (gpio_get_level(CONFIG_BUTTON_GPIO) == 0) { // pressed
 			if (++btnActive == 2) { // pressed long enough
 				buttonEvent.buttonState = ButtonState_Pressed;
+				buttonEvent.systemtime = esp_timer_get_time();
 				if (gObserverMessageBuffer != NULL) {
 					if (xMessageBufferSend(gObserverMessageBuffer, (void *)&buttonEvent, sizeof(struct ButtonEvent), pdMS_TO_TICKS(100)) != sizeof(struct ButtonEvent)) {
 						ESP_LOGI(TAG, "state send failed");
@@ -59,6 +61,7 @@ void buttonTaskMainFunc(void * pvParameters) {
 			btnActive = 0;
 			if (buttonEvent.buttonState == ButtonState_Pressed) {
 				buttonEvent.buttonState = ButtonState_Released;
+				buttonEvent.systemtime = esp_timer_get_time();
 				if (gObserverMessageBuffer != NULL) {
 					if (xMessageBufferSend(gObserverMessageBuffer, (void *)&buttonEvent, sizeof(struct ButtonEvent), pdMS_TO_TICKS(100)) != sizeof(struct ButtonEvent)) {
 						ESP_LOGI(TAG, "state send failed");

@@ -22,7 +22,8 @@
 void app_main() {
 	ESP_LOGI(TAG, "Starting tickerapp");
 	ESP_ERROR_CHECK(ticker_init(CONFIG_LED_STRIP_GPIO));
-	ticker_setText("\1rWelcome \1gto \1bthe\1o>>ticker<<\1w!!! ", true);
+	//ticker_setText("\1rWelcome \1gto \1bthe\1o>>ticker<<\1w!!! ", true);
+	ticker_setText("\1gWillkommen \1rbei der \1bBuchpraesentation\1w!!! ", true);
     while (true) {
         printf("Ticker is running.\n");
         sleep(60);

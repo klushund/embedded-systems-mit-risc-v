@@ -14,4 +14,4 @@
 #define SSD1306_COMMAND_SETCONTRAST			0x81
 #define SSD1306_COMMAND_SETPRECHARGE		0xD9
 
-void ssd1306patch_sendCommand(esp_lcd_panel_t *panel, uint8_t command, uint8_t data);
+esp_err_t ssd1306patch_sendCommand(esp_lcd_panel_t *panel, uint8_t command, uint8_t data);

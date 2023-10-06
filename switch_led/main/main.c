@@ -30,8 +30,8 @@
 #define IO_MUX_PIN_FUNC_GPIO 			1
 #define IO_MUX_PIN_DRV_40mA 			3
 #if (CONFIG_MULTIPLEX_BY_BITMASKING == 1)
-#define iomuxGPIO4Reg 					*((volatile uint32_t*)(IO_MUX_BASE | IO_MUX_GPIOn_REG_OFFS(4)))
-#define iomuxGPIO5Reg 					*((volatile uint32_t*)(IO_MUX_BASE | IO_MUX_GPIOn_REG_OFFS(5)))
+#define iomuxGPIO4Reg 					*((volatile uint32_t*)(IO_MUX_BASE | IO_MUX_GPIOn_REG_OFFS(CONFIG_LED1_GPIO)))
+#define iomuxGPIO5Reg 					*((volatile uint32_t*)(IO_MUX_BASE | IO_MUX_GPIOn_REG_OFFS(CONFIG_LED2_GPIO)))
 #define IO_MUX_GPIOn_FUN_DRV 			10
 #define IO_MUX_GPIOn_MCU_SEL 			12
 #else
@@ -55,8 +55,8 @@ volatile struct IoMuxGpioReg* pIoMuxGpio4Reg = (volatile struct IoMuxGpioReg*)(I
 #define ioMuxGpio5Reg 					(*(volatile struct IoMuxGpioReg*)(IO_MUX_BASE | IO_MUX_GPIOn_REG_OFFS(5)))
 #endif
 
-#define LED1_GPIO						GPIO_NUM_4
-#define LED2_GPIO						GPIO_NUM_5
+#define LED1_GPIO						CONFIG_LED1_GPIO
+#define LED2_GPIO						CONFIG_LED2_GPIO
 
 // ***** implementation *****
 void app_main() {
@@ -92,11 +92,12 @@ void app_main() {
 	#endif
 
     // enable the GPIO output drivers
-	gpioEnableReg |= (1 << GPIO_NUM_4) | (1 << GPIO_NUM_5);
+	gpioEnableReg |= (1 << CONFIG_LED1_GPIO) | (1 << CONFIG_LED2_GPIO);
 
 	// "eternal" blink
 	while (true) {
-		gpioOutReg ^= (1 << LED1_GPIO) | (1 << LED2_GPIO);
+		gpioOutReg ^= (1 << CONFIG_LED1_GPIO) | (1 << CONFIG_LED2_GPIO);
+		printf("toggling LEDs: %X\n", (unsigned int)gpioOutReg);
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }

@@ -17,7 +17,7 @@
 #include "systick.h"
 #include "led.h"
 
-#define LED1_GPIO						GPIO_NUM_4
+#define LED1_GPIO						CONFIG_LED1_GPIO
 
 // ***** implementation *****
 
@@ -25,7 +25,7 @@ void led_init() {
 	// initialize GPIOs, with implicit multiplexing
 	gpio_config_t gpioConfig = {
 		.pin_bit_mask = (1 << LED1_GPIO),
-		.mode = GPIO_MODE_OUTPUT,
+		.mode = GPIO_MODE_INPUT_OUTPUT,
 		.pull_up_en = false,
 		.pull_down_en = false,
 		.intr_type = GPIO_INTR_DISABLE
