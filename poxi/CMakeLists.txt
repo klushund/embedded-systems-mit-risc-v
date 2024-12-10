@@ -3,10 +3,10 @@
 cmake_minimum_required(VERSION 3.5)
 
 set(EXTRA_COMPONENT_DIRS 
-  "C:/Users/prits/git/embedded-systems-mit-risc-v/components/components/graphics" 
-  "C:/Users/prits/git/embedded-systems-mit-risc-v/components/components/pushbtn"
-  "C:/Users/prits/git/embedded-systems-mit-risc-v/components/components/max3010x"
-  "C:/Users/prits/git/embedded-systems-mit-risc-v/components/components/filter"
-  "C:/Users/prits/git/embedded-systems-mit-risc-v/components/components/ringbuffer")
+	"${CMAKE_SOURCE_DIR}/../components/components/graphics" 
+	"${CMAKE_SOURCE_DIR}/../components/components/pushbtn"
+	"${CMAKE_SOURCE_DIR}/../components/components/max3010x"
+	"${CMAKE_SOURCE_DIR}/../components/components/filter"
+	"${CMAKE_SOURCE_DIR}/../components/components/ringbuffer")
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(app-template)
